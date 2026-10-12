@@ -188,6 +188,7 @@
   .drawer-body{margin-top:18px;background:var(--card);border-radius:18px;padding:24px 26px;width:calc(100% - 60px);box-sizing:border-box;transition:height .6s cubic-bezier(.3,.7,.2,1)}
   .dw{display:grid;grid-template-columns:1fr 1fr;gap:8px 36px}
   .dist{grid-column:1/-1;border-top:1px solid rgba(0,0,0,.1);margin-top:14px;padding-top:18px}
+  .dist.measure{margin-top:4px}
   .dw.swap-out{transition:transform .3s ease-in,opacity .25s ease-in}
   .dw.swap-in{transition:transform .6s cubic-bezier(.3,.7,.2,1),opacity .5s ease}
   .drawer-body section{min-width:0}
@@ -554,7 +555,8 @@ function cardHTML(s,i){
       <dl class="spec">
         <dt>Målgruppe</dt><dd>${s.c.audience}</dd>
         <dt>Kanaler</dt><dd>${s.c.channel}</dd>
-        <dt>Idéen</dt><dd>${s.c.idea}</dd>
+        <dt>Idéen</dt><dd>${s.c.idea}</dd>${s.c.kpi?`
+        <dt>Evaluering</dt><dd>${s.c.kpi}</dd>`:""}
       </dl>
       <div class="actions">
         <button class="btn" data-act="more" aria-expanded="false"><span class="lbl-more">Læs mere ↓</span><span class="nudge nudge-more" aria-hidden="true">Klik for at læse mere</span></button>      </div>
@@ -588,7 +590,8 @@ function drawerHTML(s){
     <h4>Hvorfor det virker</h4><p>${m.why}</p></section>
   <section><h4>Sådan kunne det se ud</h4><ol>${m.steps.filter(([t,d])=>t||d).map(([t,d])=>`<li><strong>${String(t).replace(/[.:]\s*$/,"")}${/^\s*,/.test(d)?"":"."}</strong>${/^\s*,/.test(d)?String(d).trim():" "+d}</li>`).join("")}</ol>
   <a class="source" href="${m.src[1]}" target="_blank" rel="noopener">Kilde om projektet: ${m.src[0]} ↗</a></section>
-  ${m.dist&&typeof m.dist==="string"?`<section class="dist"><h4>Distribution</h4><p>${m.dist}</p></section>`:""}`;
+  ${m.dist&&typeof m.dist==="string"?`<section class="dist"><h4>Distribution</h4><p>${m.dist}</p></section>`:""}
+  ${m.measure?`<section class="dist measure"><h4>Sådan måler vi</h4><p>${m.measure}</p></section>`:""}`;
 }
 let swapTok=0;
 function swapDrawer(html,dir,animate){

@@ -146,12 +146,14 @@ function render(){
         ${F.area(`${b}.c.audience`,"Målgruppe",2)}
         ${F.area(`${b}.c.channel`,"Kanaler",2)}
         ${F.area(`${b}.c.idea`,"Idéen",3)}
+        ${F.text(`${b}.c.kpi`,"Evaluering","det vigtigste målepunkt")}
       </fieldset>
       <fieldset><legend>Læs mere</legend>
         ${F.area(`${b}.more.concept`,"Konceptet",3)}
         ${steps.map((_,k)=>`<div class="step">${F.text(`${b}.more.steps.${k}.0`,`Eksempel ${k+1} – titel`,"tom = skjult")}${F.area(`${b}.more.steps.${k}.1`,`Eksempel ${k+1} – tekst`,2)}</div>`).join("")}
         ${F.area(`${b}.more.why`,"Hvorfor det virker",3)}
         ${F.area(`${b}.more.dist`,"Distribution",3)}
+        ${F.area(`${b}.more.measure`,"Sådan måler vi",2)}
         <div class="row">${F.text(`${b}.more.src.0`,"Kilde – navn")}${F.text(`${b}.more.src.1`,"Kilde – link")}</div>
       </fieldset>
     </div></details>`);
