@@ -118,8 +118,8 @@ window.CONTENT = {
       "soon": false
     },
     {
-      "label": "Ung voksen",
-      "age": "24",
+      "label": "Yngre voksen",
+      "age": "27",
       "name": "Freja",
       "line": "Flyttede fra København for bølgernes skyld. Blev for naboerne, der også er her i november.",
       "program": "Stedet Tæller · kystbyer",
