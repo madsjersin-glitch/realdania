@@ -293,7 +293,7 @@ window.CONTENT = {
       "credit": "",
       "c": {
         "headline": "Naboskab mod ensomhed",
-        "audience": "Danskere på 55+ · deres voksne børn",
+        "audience": "Danskere på 55+ og deres voksne børn",
         "channel": "realdania.dk, Facebook og lokalaviser",
         "idea": "Der er dækket op til én mere."
       },
