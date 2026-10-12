@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Redigér tekster</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62.5..125,100..900&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#000;--muted:#5F6368;--line:#E3E3E3;--bg:#F6F6F4;--red:#F91E32;--sail:#9FDBF6;--ok:#2F7D57;color-scheme:light}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Archivo",Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.45}
+  button{font:inherit;cursor:pointer}
+  header{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:12px 16px;flex-wrap:wrap}
+  header h1{margin:0;font-size:18px;font-weight:800;font-stretch:125%;margin-right:auto}
+  .status{font-size:13px;color:var(--muted)}
+  .status.dirty{color:var(--red)} .status.ok{color:var(--ok)}
+  .btn{border:1.5px solid var(--ink);background:#fff;border-radius:999px;padding:8px 15px;font-weight:500;font-size:14px}
+  .btn:hover{background:var(--ink);color:#fff}
+  .btn.red{background:var(--red);border-color:var(--red);color:#fff}
+  .btn.red:hover{background:#D0101F}
+  .btn[disabled]{opacity:.4;pointer-events:none}
+  main{display:grid;grid-template-columns:minmax(380px,520px) 1fr;height:calc(100vh - 61px)}
+  .form{overflow:auto;padding:16px 16px 80px;border-right:1px solid var(--line)}
+  .preview{position:relative;background:#ddd}
+  .preview iframe{width:100%;height:100%;border:0;background:#fff;display:block}
+  @media (max-width:900px){
+    main{grid-template-columns:1fr;height:auto}
+    .preview{display:none}
+    body.show-preview .preview{display:block;position:fixed;inset:61px 0 0 0;z-index:5}
+    .form{border-right:0}
+  }
+  .only-mobile{display:none} @media (max-width:900px){.only-mobile{display:inline-flex}}
+  details.sec{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:12px}
+  details.sec > summary{list-style:none;cursor:pointer;padding:14px 16px;font-weight:700;display:flex;gap:10px;align-items:center}
+  details.sec > summary::-webkit-details-marker{display:none}
+  details.sec > summary::before{content:"+";width:22px;height:22px;border-radius:50%;background:var(--bg);display:grid;place-items:center;font-weight:600;flex:none}
+  details.sec[open] > summary::before{content:"–";background:var(--sail)}
+  summary small{font-weight:400;color:var(--muted)}
+  .body{padding:0 16px 16px}
+  fieldset{border:0;padding:0;margin:14px 0 0}
+  legend{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--red);font-weight:700;margin-bottom:6px}
+  label{display:block;margin-top:10px;font-size:13px;color:var(--muted);font-weight:500}
+  label .tip{font-weight:400;opacity:.8}
+  input[type=text],input[type=url],input[type=password],textarea{display:block;width:100%;margin-top:4px;padding:9px 11px;border:1px solid #D5D5D5;border-radius:9px;font:inherit;color:var(--ink);background:#fff}
+  textarea{resize:vertical;min-height:64px}
+  input:focus,textarea:focus{outline:2px solid var(--sail);border-color:#7CC6EA}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .check{display:flex;align-items:center;gap:8px;color:var(--ink)}
+  .step{border-left:3px solid var(--sail);padding-left:10px;margin-top:10px}
+  .settings{background:#fff;border:1px solid var(--line);border-radius:14px;padding:4px 16px 16px;margin-bottom:12px}
+  .settings p{font-size:13px;color:var(--muted);margin:10px 0 0}
+  .banner{background:#FCE4E6;border-radius:12px;padding:12px 14px;margin-bottom:12px;font-size:14px;display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  .banner[hidden]{display:none}
+  a{color:inherit}
+</style>
+</head>
+<body>
+<header>
+  <h1>Redigér tekster</h1>
+  <span class="status" id="status">Indlæser …</span>
+  <button class="btn only-mobile" id="togglePreview">Forhåndsvisning</button>
+  <button class="btn" id="dl">Download content.js</button>
+  <button class="btn red" id="save">Gem på GitHub</button>
+</header>
+<main>
+  <div class="form" id="form">
+    <div class="banner" id="draftBanner" hidden>
+      <span>Du har ændringer, der ikke er gemt endnu (kladden ligger kun i denne browser).</span>
+      <button class="btn" id="discard">Kassér kladden</button>
+    </div>
+
+    <details class="sec" id="settingsBox">
+      <summary>Forbindelse til GitHub <small id="ghState"></small></summary>
+      <div class="body">
+        <div class="row">
+          <label>Ejer (brugernavn)<input type="text" id="ghOwner" placeholder="fx madsjersin"></label>
+          <label>Repo<input type="text" id="ghRepo" placeholder="fx et-liv-i-danmark"></label>
+        </div>
+        <label>Branch<input type="text" id="ghBranch" placeholder="main"></label>
+        <label>Adgangsnøgle (token)<input type="password" id="ghToken" placeholder="github_pat_…" autocomplete="off"></label>
+        <p>Lav en nøgle på <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com → Settings → Fine-grained tokens</a>. Vælg <b>Only select repositories</b> → dit repo, og giv <b>Contents: Read and write</b>. Nøglen gemmes kun i denne browser.</p>
+      </div>
+    </details>
+
+    <div id="fields"></div>
+  </div>
+  <div class="preview"><iframe id="frame" title="Forhåndsvisning"></iframe></div>
+</main>
+
+<script>
+const LS_DRAFT="etliv-draft", LS_PREVIEW="etliv-preview", LS_GH="etliv-gh";
+const store={ get(k){ try{return localStorage.getItem(k)}catch(e){return null} }, set(k,v){ try{localStorage.setItem(k,v)}catch(e){} }, del(k){ try{localStorage.removeItem(k)}catch(e){} } };
+const $=id=>document.getElementById(id);
+let published=null, data=null, activeStage=0, previewMode="";
+
+/* ---------- path helpers ---------- */
+const get=(o,p)=>p.split(".").reduce((a,k)=>a==null?a:a[k],o);
+function set(o,p,v){ const ks=p.split("."); let a=o; ks.slice(0,-1).forEach((k,i)=>{ if(a[k]==null) a[k]=/^\d+$/.test(ks[i+1])?[]:{}; a=a[k]; }); a[ks.at(-1)]=v; }
+const esc=s=>String(s??"").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
+
+/* ---------- field builders ---------- */
+const F={
+  text:(p,label,tip="")=>`<label>${label}${tip?` <span class="tip">· ${tip}</span>`:""}<input type="text" data-p="${p}" value="${esc(get(data,p))}"></label>`,
+  area:(p,label,rows=3,tip="")=>`<label>${label}${tip?` <span class="tip">· ${tip}</span>`:""}<textarea rows="${rows}" data-p="${p}">${esc(get(data,p))}</textarea></label>`,
+  lines:(p,label,tip="én pr. linje")=>`<label>${label} <span class="tip">· ${tip}</span><textarea rows="4" data-p="${p}" data-kind="lines">${esc((get(data,p)||[]).join("\n"))}</textarea></label>`,
+  check:(p,label)=>`<label class="check"><input type="checkbox" data-p="${p}" data-kind="bool" ${get(data,p)?"checked":""}> ${label}</label>`
+};
+
+function render(){
+  const h=[];
+  h.push(`<details class="sec" data-stage="-1"><summary>Forside</summary><div class="body">
+    ${F.text("hero.eyebrow","Lille overskrift")}
+    <div class="row">${F.text("hero.title","Titel")}${F.text("hero.titleAccent","Titel – rødt ord")}</div>
+    ${F.area("hero.lede","Intro",3)}
+    ${F.text("hero.cta","Knaptekst")}
+  </div></details>`);
+  h.push(`<details class="sec" data-stage="0"><summary>Overskrift over kortene</summary><div class="body">
+    ${F.text("journey.eyebrow","Lille overskrift")}
+    ${F.text("journey.title","Overskrift")}
+    ${F.text("journey.hint","Hjælpetekst")}
+  </div></details>`);
+  data.stages.forEach((s,i)=>{
+    const b=`stages.${i}`;
+    const steps=(get(data,`${b}.more.steps`)||[]);
+    while(steps.length<3) steps.push(["",""]);
+    set(data,`${b}.more.steps`,steps);
+    h.push(`<details class="sec" data-stage="${i}"><summary>${i+1} · ${esc(s.label)} <small>— ${esc(s.project)}</small></summary><div class="body">
+      <fieldset><legend>Personen</legend>
+        <div class="row">${F.text(`${b}.label`,"Livsfase")}${F.text(`${b}.age`,"Alder","kun tal – „år“ sættes på · flere adskilles med komma")}</div>
+        ${F.text(`${b}.name`,"Navn")}
+        ${F.area(`${b}.line`,"Replik",2)}
+      </fieldset>
+      <fieldset><legend>Projektet</legend>
+        ${F.text(`${b}.project`,"Projektnavn")}
+        <div class="row">${F.text(`${b}.program`,"Program / partnere")}${F.text(`${b}.place`,"Sted")}</div>
+        ${F.area(`${b}.intro`,"Intro",4)}
+        <div class="row">${F.text(`${b}.stat.0`,"Nøgletal")}${F.text(`${b}.stat.1`,"Nøgletal – forklaring")}</div>
+        ${F.check(`${b}.soon`,"Vis mærket „På vej“")}
+        <div class="row">${F.text(`${b}.photo`,"Foto","fx images/navn.webp")}${F.text(`${b}.credit`,"Fotokredit")}</div>
+      </fieldset>
+      <fieldset><legend>Mit kampagnebud</legend>
+        ${F.area(`${b}.c.headline`,"Overskrift",2)}
+        ${F.area(`${b}.c.audience`,"Målgruppe",2)}
+        ${F.area(`${b}.c.channel`,"Kanaler",2)}
+        ${F.area(`${b}.c.idea`,"Idéen",3)}
+      </fieldset>
+      <fieldset><legend>Læs mere</legend>
+        ${F.area(`${b}.more.concept`,"Konceptet",3)}
+        ${steps.map((_,k)=>`<div class="step">${F.text(`${b}.more.steps.${k}.0`,`Eksempel ${k+1} – titel`,"tom = skjult")}${F.area(`${b}.more.steps.${k}.1`,`Eksempel ${k+1} – tekst`,2)}</div>`).join("")}
+        ${F.area(`${b}.more.why`,"Hvorfor det virker",3)}
+        ${F.area(`${b}.more.dist`,"Distribution",3)}
+        <div class="row">${F.text(`${b}.more.src.0`,"Kilde – navn")}${F.text(`${b}.more.src.1`,"Kilde – link")}</div>
+      </fieldset>
+    </div></details>`);
+  });
+  h.push(`<details class="sec" data-stage="99"><summary>Afslutning</summary><div class="body">
+    ${F.text("outro.eyebrow","Lille overskrift")}
+    ${F.text("outro.title","Overskrift")}
+    ${F.area("outro.p1","Afsnit 1",4)}
+    ${F.area("outro.p2","Afsnit 2",3)}
+    <div class="row">${F.text("outro.name","Navn")}${F.text("outro.email","E-mail")}</div>
+    ${F.text("outro.role","Linje under navnet")}
+    ${F.area("outro.fine","Lille tekst nederst",3)}
+  </div></details>`);
+  $("fields").innerHTML=h.join("");
+}
+
+/* ---------- state & preview ---------- */
+const serialize=d=>"/* Alle tekster på siden. */\nwindow.CONTENT = "+JSON.stringify(d,null,2)+";\n";
+const clean=d=>{ const c=JSON.parse(JSON.stringify(d)); c.stages.forEach(s=>{ if(s.more&&s.more.steps) s.more.steps=s.more.steps.filter(([t,x])=>t||x); }); return c; };
+const isDirty=()=>JSON.stringify(clean(data))!==JSON.stringify(clean(published));
+function setStatus(txt,cls=""){ const s=$("status"); s.textContent=txt; s.className="status "+cls; }
+function refreshState(){
+  const dirty=isDirty();
+  $("draftBanner").hidden=!dirty;
+  if(dirty){ store.set(LS_DRAFT,JSON.stringify(data)); setStatus("Ikke gemt","dirty"); }
+  else { store.del(LS_DRAFT); setStatus("Alt er gemt","ok"); }
+}
+let pv=null;
+function preview(now){
+  clearTimeout(pv);
+  pv=setTimeout(()=>{
+    store.set(LS_PREVIEW,JSON.stringify(clean(data)));
+    const stage=activeStage>=0&&activeStage<99?`&stage=${activeStage}${previewMode?`&mode=${previewMode}`:""}`:"";
+    const hash=activeStage===99?"#outro":(activeStage<0?"":"");
+    $("frame").src=`index.html?preview=1${stage}&t=${Date.now()}${hash}`;
+  }, now?0:600);
+}
+
+document.addEventListener("input",e=>{
+  const el=e.target; const p=el.dataset&&el.dataset.p; if(!p) return;
+  let v=el.value;
+  if(el.dataset.kind==="lines") v=v.split("\n").map(x=>x.trim()).filter(Boolean);
+  if(el.dataset.kind==="bool") v=el.checked;
+  set(data,p,v);
+  previewMode = /\.c\./.test(p) ? "campaign" : /\.(more|facts)/.test(p) ? "more" : "";
+  if(/^stages\.\d+\.(label|project)$/.test(p)){ const i=+p.split(".")[1]; const sm=document.querySelector(`details[data-stage="${i}"] > summary`); if(sm) sm.innerHTML=`${i+1} · ${esc(data.stages[i].label)} <small>— ${esc(data.stages[i].project)}</small>`; }
+  refreshState(); preview();
+});
+document.addEventListener("change",e=>{ if(e.target.dataset&&e.target.dataset.kind==="bool"){ const ev=new Event("input",{bubbles:true}); e.target.dispatchEvent(ev); } });
+document.addEventListener("toggle",e=>{
+  const d=e.target; if(!d.matches||!d.matches("details.sec[data-stage]")||!d.open) return;
+  const n=+d.dataset.stage; if(n!==activeStage){ activeStage=n; previewMode=""; preview(true); }
+},true);
+
+/* ---------- GitHub ---------- */
+function ghCfg(){ return {owner:$("ghOwner").value.trim(), repo:$("ghRepo").value.trim(), branch:$("ghBranch").value.trim()||"main", token:$("ghToken").value.trim()}; }
+function saveCfg(){ store.set(LS_GH,JSON.stringify(ghCfg())); updateGhState(); }
+function updateGhState(){ const c=ghCfg(); $("ghState").textContent = c.owner&&c.repo&&c.token ? `— ${c.owner}/${c.repo} (${c.branch})` : "— ikke sat op"; }
+["ghOwner","ghRepo","ghBranch","ghToken"].forEach(id=>$(id).addEventListener("input",saveCfg));
+function b64(str){ const bytes=new TextEncoder().encode(str); let bin=""; for(let i=0;i<bytes.length;i+=0x8000) bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+0x8000)); return btoa(bin); }
+
+$("save").addEventListener("click",async()=>{
+  const c=ghCfg();
+  if(!(c.owner&&c.repo&&c.token)){ $("settingsBox").open=true; setStatus("Udfyld forbindelsen til GitHub først","dirty"); $("ghOwner").focus(); return; }
+  const btn=$("save"); btn.disabled=true; setStatus("Gemmer …");
+  const api=`https://api.github.com/repos/${encodeURIComponent(c.owner)}/${encodeURIComponent(c.repo)}/contents/content.js`;
+  const headers={"Authorization":`Bearer ${c.token}`,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"};
+  try{
+    let sha;
+    const r1=await fetch(`${api}?ref=${encodeURIComponent(c.branch)}`,{headers,cache:"no-store"});
+    if(r1.ok) sha=(await r1.json()).sha;
+    else if(r1.status!==404) throw r1;
+    const body={message:"Opdater tekster via admin",content:b64(serialize(clean(data))),branch:c.branch}; if(sha) body.sha=sha;
+    const r2=await fetch(api,{method:"PUT",headers:{...headers,"Content-Type":"application/json"},body:JSON.stringify(body)});
+    if(!r2.ok) throw r2;
+    published=JSON.parse(JSON.stringify(data)); refreshState();
+    setStatus("Gemt ✓ Vercel opdaterer siden om ca. et minut","ok");
+  }catch(err){
+    const st=err&&err.status;
+    const msg = st===401 ? "GitHub afviste nøglen – tjek token" :
+                st===403 ? "Nøglen mangler skriveadgang (Contents: Read and write)" :
+                st===404 ? "Repo eller branch blev ikke fundet – tjek ejer, repo og branch" :
+                st===409||st===422 ? "Filen blev ændret et andet sted – genindlæs siden og prøv igen" :
+                "Kunne ikke gemme – tjek forbindelsen";
+    setStatus(msg,"dirty"); $("settingsBox").open = st===401||st===403||st===404;
+  }finally{ btn.disabled=false; }
+});
+
+$("dl").addEventListener("click",()=>{
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob([serialize(clean(data))],{type:"text/javascript"}));
+  a.download="content.js"; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),3000);
+});
+$("discard").addEventListener("click",()=>{
+  if(!confirm("Kassér alle ændringer, der ikke er gemt?")) return;
+  data=JSON.parse(JSON.stringify(published)); store.del(LS_DRAFT); render(); refreshState(); preview(true);
+});
+$("togglePreview").addEventListener("click",()=>{ document.body.classList.toggle("show-preview"); $("togglePreview").textContent=document.body.classList.contains("show-preview")?"Tilbage til felterne":"Forhåndsvisning"; });
+
+/* ---------- boot: load the published content.js fresh ---------- */
+(function boot(){
+  try{ const c=JSON.parse(store.get(LS_GH)||"{}"); $("ghOwner").value=c.owner||""; $("ghRepo").value=c.repo||""; $("ghBranch").value=c.branch||"main"; $("ghToken").value=c.token||""; }catch(e){}
+  updateGhState();
+  const sc=document.createElement("script");
+  sc.src="content.js?t="+Date.now();
+  sc.onload=()=>{
+    published=JSON.parse(JSON.stringify(window.CONTENT));
+    let draft=null; try{ draft=JSON.parse(store.get(LS_DRAFT)||"null"); }catch(e){}
+    data=draft||JSON.parse(JSON.stringify(published));
+    render(); refreshState(); preview(true);
+  };
+  sc.onerror=()=>setStatus("Kunne ikke finde content.js","dirty");
+  document.head.appendChild(sc);
+})();
+</script>
+</body>
+</html>
