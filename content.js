@@ -45,7 +45,7 @@ window.CONTENT = {
       "credit": "",
       "c": {
         "headline": "Frikvarter for alle",
-        "audience": "Forældre til skolebørn · skoleledere og kommuner",
+        "audience": "Forældre til skolebørn. Skoleledere og kommuner",
         "channel": "realdania.dk, Facebook og Instagram samt fagmedier",
         "idea": "Ét frikvarter i realtid: asfalt mod skov."
       },
@@ -92,7 +92,7 @@ window.CONTENT = {
       "credit": "",
       "c": {
         "headline": "Et sted at høre til",
-        "audience": "Unge uden for foreningslivet · offentligheden og kommuner",
+        "audience": "Unge uden for foreningslivet. Dernæst offentligheden og kommuner",
         "channel": "realdania.dk, Instagram og TikTok samt medier",
         "idea": "De unge fortæller. Realdania fortæller hvorfor."
       },
@@ -192,7 +192,7 @@ window.CONTENT = {
       "credit": "",
       "c": {
         "headline": "Demokrati i børnehøjde",
-        "audience": "1.-2. klasse og deres lærere · familier med børn på 7-8 år",
+        "audience": "1.-2. klasse og deres lærere. Familier med børn",
         "channel": "Skolerne, realdania.dk og medier",
         "idea": "Hvem bestemmer? Grundloven forklaret til en syv-otteårig."
       },
@@ -242,7 +242,7 @@ window.CONTENT = {
       "credit": "",
       "c": {
         "headline": "Rum, der tager imod",
-        "audience": "Patienter og pårørende · danskere bredt",
+        "audience": "Patienter og pårørende. Danskere bredt",
         "channel": "realdania.dk, hospitalerne og annoncer",
         "idea": "Lydportrætter: én bruger, ét rum."
       },
