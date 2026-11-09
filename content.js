@@ -16,7 +16,7 @@ window.CONTENT = {
     "eyebrow": "Afslutning",
     "title": "Seks steder i livet. Seks historier.",
     "p1": "Ingen af de seks ved nødvendigvis, hvem Realdania er. Men hver dag mærker de den øgede livskvalitet i praksis. Det er de historier, jeg gerne vil være med til at fortælle, så flere ved, hvem der står bag.",
-    "p2": "",
+    "p2": "Det kan måles: Det samme spørgsmål før og efter hver kampagne viser, om kendskabet til Realdania vokser.",
     "name": "Mads Jersin",
     "role": "Ansøgning til stillingen som projekt- og kampagneleder, Brand og Kampagne",
     "email": "madsjersin@gmail.com",
@@ -68,7 +68,7 @@ window.CONTENT = {
           "https://realdania.dk/nyhedsoverblik/nyheder/2019/06/droen-paa-skolegaarden"
         ],
         "dist": "Film og artikel deles på projektsiden på realdania.dk, i nyhedsbrevet og på Realdanias sociale medier. Korte klip som annoncer på Facebook og Instagram. Tallene pitches som pressepakke til fagmedier før de kommunale budgetforhandlinger.",
-        "measure": "Henvendelser fra kommuner om nye skolegårde, gennemsete visninger af filmen og dækning i fagmedierne. Og om flere ved, at Realdania står bag."
+        "measure": "Hvor mange kommuner der henvender sig om nye skolegårde i året efter kampagnen. Undervejs: hvor mange der ser filmen færdig, og om tallene bliver bragt i fagmedierne før budgetforhandlingerne."
       },
       "soon": false
     },
@@ -117,7 +117,7 @@ window.CONTENT = {
           "https://www.sdu.dk/-/media/files/om_sdu/centre/c_isc/pixi/2021/game_streetmekka.pdf"
         ],
         "dist": "De unge poster fra egne konti og husets, og Realdania deler videoerne og før og nu-serien på projektsiden på realdania.dk og egne kanaler. De stærkeste videoer som annoncer på Instagram og TikTok til unge i og omkring Esbjerg. Historien tilbydes medierne med de unge som cases.",
-        "measure": "Nye medlemmer i huset og rækkevidde på de unges videoer. Og om flere ved, at Realdania står bag."
+        "measure": "Nye medlemmer i huset i kampagneperioden sammenlignet med samme periode året før. På de unges videoer tæller delinger og gemte opslag, ikke kun visninger."
       },
       "soon": false
     },
@@ -170,7 +170,7 @@ window.CONTENT = {
           "https://realdania.dk/-/media/realdaniadk/saadan-stoetter-vi/filantropiske-programmer/samlet-projektliste/stedet-taeller/realdaniafundament-for-mulighederdigital-version-52pages18-marts-2016.pdf"
         ],
         "dist": "Landingssiden og videoerne deles på realdania.dk, i nyhedsbrevet og på Realdanias sociale medier. Bolius er medafsender med artikler om at købe og bo uden for storbyen. Plakater på stationer i København og Aarhus i november og videoerne som annoncer på Instagram. De lokale stemmer tilbydes medierne, og kommunerne deler i egne kanaler.",
-        "measure": "Trafik til landingssiden og henvendelser til kommunernes bosætningstilbud. Og om flere ved, at Realdania står bag."
+        "measure": "Klik fra landingssiden videre til kommunernes tilbud og henvendelser til bosætningskonsulenterne fra november til januar sammenlignet med året før."
       },
       "soon": false
     },
@@ -225,7 +225,7 @@ window.CONTENT = {
           "https://realdania.dk/projekter/nyborg-slot"
         ],
         "dist": "Forløbet ligger på undervisningsportalerne, og nedtællingen deles på projektsiden på realdania.dk og på Realdanias og Østfyns Museers sociale medier. Åbningskampagnen som annoncer til børnefamilier. Milepælene og åbningen tilbydes medierne.",
-        "measure": "Tilmeldte skoleklasser før åbningen og besøgende det første år. Og om flere ved, at Realdania står bag."
+        "measure": "Antal skoleklasser, der booker forløbet før åbningen, og hvor mange af dem der kommer på besøg det første år."
       }
     },
     {
@@ -277,7 +277,7 @@ window.CONTENT = {
           "https://realdania.dk/nyhedsoverblik/nyheder/2019/10/ny-kraeftraadgivning-aabner-i-herlev"
         ],
         "dist": "Lydportrætterne deles på projektsiden på realdania.dk og i Realdanias og Kræftens Bekæmpelses kanaler. Korte uddrag som annoncer på Facebook og Instagram. Udspillet pitches til sundheds- og arkitektmedier og præsenteres for regionerne.",
-        "measure": "Lyttetid på lydportrætterne og flere besøgende i Livsrum. Og om flere ved, at Realdania står bag."
+        "measure": "Hvor mange der scanner QR-koden på postkortene, og om der kommer flere nye besøgende i Livsrum i kampagneperioden. Og om lytterne hører lydportrætterne til ende."
       },
       "soon": false
     },
@@ -330,7 +330,7 @@ window.CONTENT = {
           "https://realdania.dk/-/media/realdaniadk/publikationer/fremtidens-seniorbofaellesskab/fremtidens-seniorbofaellesskab.pdf"
         ],
         "dist": "Portrætterne og landingssiden deles på realdania.dk, i nyhedsbrevet, på Realdanias sociale medier og på Bolius side om bofællesskaber. Invitationen som annoncer til 55+ omkring bofællesskaberne og til deres voksne børn: Tag din mor eller far med til spisning. Lokale journalister inviteres med til en spisning.",
-        "measure": "Tilmeldinger til fællesspisningerne og nye ansøgere til boligerne. Og om flere ved, at Realdania står bag."
+        "measure": "Tilmeldinger til fællesspisningerne, og hvor mange af gæsterne der bagefter skriver sig op til en bolig."
       },
       "soon": false
     }
